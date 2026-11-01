@@ -3,24 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0e1015">
+  <meta name="theme-color" content="#f5f4ef">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>JPEG Compressor & Artifact Studio 2.0</title>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>JPEG Compressor Studio</title>
   <style>
     :root {
-      --bg-main: #0e1015;
-      --bg-panel: #161922;
-      --bg-card: #1f232f;
-      --border: #2c3243;
-      --primary: #3b82f6;
-      --primary-hover: #2563eb;
-      --accent: #ec4899;
-      --text: #f3f4f6;
-      --text-muted: #9ca3af;
-      --success: #10b981;
-      --danger: #ef4444;
-      --radius: 8px;
+      --bg-main: #f5f4ef;
+      --bg-panel: #fbfaf7;
+      --bg-card: #ffffff;
+      --border: #e6e3da;
+      --border-light: #ece9e2;
+      --text-main: #272a30;
+      --text-secondary: #636773;
+      --text-muted: #8f939e;
+      --accent: #507167;
+      --accent-hover: #3f5951;
+      --accent-tint: #edf3f0;
+      --pastel-sage: #e8eee9;
+      --pastel-sand: #f3efe6;
+      --pastel-rose: #f6ece9;
+      --pastel-sky: #eaf0f5;
+      --pastel-clay: #efe9e2;
+      --pastel-slate: #e9ecef;
+      --radius-sm: 6px;
+      --radius-md: 9px;
+      --radius-lg: 12px;
+      --shadow-soft: 0 4px 20px rgba(40, 44, 52, 0.05);
     }
 
     * {
@@ -32,60 +41,21 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg-main);
-      color: var(--text);
+      color: var(--text-main);
       display: flex;
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
-    }
-
-    /* Responsive layout: Desktop (row), Mobile (column) */
-    @media (max-width: 820px) {
-      body {
-        flex-direction: column-reverse;
-      }
-      .sidebar {
-        width: 100% !important;
-        min-width: 100% !important;
-        height: 56% !important;
-        border-right: none !important;
-        border-top: 1px solid var(--border);
-      }
-      .preview-area {
-        height: 44% !important;
-      }
-      .sidebar-header {
-        display: none !important;
-      }
-      .split-img {
-        max-height: 38vh !important;
-      }
-      .bottom-bar {
-        display: none !important;
-      }
-      .toolbar {
-        height: 42px !important;
-        padding: 0 8px !important;
-      }
-      .mode-btn {
-        padding: 4px 6px !important;
-        font-size: 0.68rem !important;
-      }
-      .sidebar-footer {
-        padding: 8px 12px !important;
-      }
-      .btn-main {
-        padding: 8px !important;
-        font-size: 0.82rem !important;
-      }
+      font-size: 13px;
+      letter-spacing: -0.01em;
     }
 
     /* Left Sidebar */
     .sidebar {
-      width: 400px;
-      min-width: 360px;
+      width: 380px;
+      min-width: 340px;
       background-color: var(--bg-panel);
       border-right: 1px solid var(--border);
       display: flex;
@@ -95,122 +65,148 @@
     }
 
     .sidebar-header {
-      padding: 16px 20px 12px;
-      border-bottom: 1px solid var(--border);
+      padding: 22px 20px 16px;
+      border-bottom: 1px solid var(--border-light);
     }
 
     .sidebar-header h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
     }
 
     .sidebar-header p {
       font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 2px;
+      color: var(--text-secondary);
+      margin-top: 3px;
     }
 
     /* Tabs */
-    .tabs-header {
+    .tabs-nav {
       display: flex;
-      background-color: var(--bg-main);
+      padding: 0 16px;
       border-bottom: 1px solid var(--border);
-      padding: 0 10px;
+      background-color: var(--bg-panel);
+      gap: 16px;
     }
 
-    .tab-btn {
-      flex: 1;
+    .tab-item {
       background: none;
       border: none;
-      padding: 10px 4px;
+      padding: 12px 2px;
       font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-weight: 500;
+      color: var(--text-secondary);
       cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.15s;
+      position: relative;
+      transition: color 0.15s;
     }
 
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
+    .tab-item:hover {
+      color: var(--text-main);
     }
 
-    .tab-content {
+    .tab-item.active {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .tab-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--accent);
+      border-radius: 1px;
+    }
+
+    .tab-body {
       flex: 1;
       overflow-y: auto;
-      padding: 14px 16px;
+      padding: 16px;
       display: none;
       flex-direction: column;
       gap: 12px;
     }
 
-    .tab-content.active { display: flex; }
-
-    .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 14px;
+    .tab-body.active {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
 
-    .card-title {
-      font-size: 0.8rem;
-      font-weight: 700;
+    /* Clean Card Container */
+    .panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .panel-title {
+      font-size: 0.72rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .val-badge {
-      color: var(--primary);
-      font-size: 0.9rem;
-      font-weight: 700;
+    .badge-val {
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 600;
       font-variant-numeric: tabular-nums;
     }
 
-    .drop-zone {
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      padding: 14px 10px;
+    /* Upload Box */
+    .upload-zone {
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 12px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s ease;
-      background-color: rgba(255, 255, 255, 0.01);
+      transition: all 0.15s ease;
+      background-color: var(--bg-panel);
     }
 
-    .drop-zone:hover, .drop-zone.dragover {
-      border-color: var(--primary);
-      background-color: rgba(59, 130, 246, 0.08);
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--accent);
+      background-color: var(--accent-tint);
     }
 
-    .drop-zone-icon { font-size: 1.6rem; margin-bottom: 4px; }
-    .drop-zone-text { font-size: 0.82rem; font-weight: 600; }
-    .drop-zone-hint { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+    .upload-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
 
-    /* Sliders */
-    .slider-group {
+    .upload-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Minimalist Sliders */
+    .control-row {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
     }
 
     input[type="range"] {
       -webkit-appearance: none;
       width: 100%;
-      height: 5px;
-      border-radius: 3px;
-      background: #374151;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
       outline: none;
       cursor: pointer;
     }
@@ -218,159 +214,187 @@
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
-      background: var(--primary);
+      background: var(--accent);
       cursor: pointer;
-      box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+      transition: transform 0.1s ease;
     }
 
-    /* Preset Buttons Grid */
-    .preset-grid {
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* Preset Buttons */
+    .preset-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
+      gap: 6px;
     }
 
-    .btn-preset {
-      background-color: #282d3b;
+    .btn-chip {
+      background-color: var(--bg-panel);
       border: 1px solid var(--border);
-      border-radius: 5px;
-      color: var(--text);
-      font-size: 0.72rem;
-      padding: 6px 2px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 0.73rem;
+      padding: 6px 3px;
       text-align: center;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: all 0.12s;
     }
 
-    .btn-preset:hover {
-      background-color: #374151;
-      border-color: #4b5563;
+    .btn-chip:hover {
+      background-color: #f0eee8;
+      color: var(--text-main);
     }
 
-    .btn-preset.jackal {
-      background: linear-gradient(135deg, #831843, #9d174d);
-      color: #ffe4e6;
-      font-weight: 700;
-      border-color: #f43f5e;
+    .btn-chip.chip-sage {
+      background-color: var(--pastel-sage);
+      color: #3b5247;
+      border-color: #d1ded3;
     }
 
-    .btn-preset.deepfry {
-      background: linear-gradient(135deg, #b91c1c, #dc2626);
-      color: #fee2e2;
-      font-weight: 700;
+    .btn-chip.chip-clay {
+      background-color: var(--pastel-clay);
+      color: #5d4f43;
+      border-color: #dfd6cb;
     }
 
-    /* Toggle rows */
-    .toggle-row {
+    .btn-chip.chip-rose {
+      background-color: var(--pastel-rose);
+      color: #63433e;
+      border-color: #e8d7d4;
+    }
+
+    .btn-chip.chip-sky {
+      background-color: var(--pastel-sky);
+      color: #3e5063;
+      border-color: #d2dee8;
+    }
+
+    /* Checkbox & Switch */
+    .check-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
     }
 
-    .toggle-row input[type="checkbox"] {
+    .check-row input[type="checkbox"] {
       width: 15px;
       height: 15px;
-      accent-color: var(--primary);
+      accent-color: var(--accent);
       cursor: pointer;
     }
 
     /* Target Size Box */
-    .target-size-row {
+    .size-input-wrapper {
       display: flex;
       gap: 6px;
       align-items: center;
     }
 
-    .input-kb {
-      background: #111318;
+    .field-input {
+      background: var(--bg-panel);
       border: 1px solid var(--border);
-      color: var(--text);
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 0.85rem;
+      color: var(--text-main);
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
       width: 90px;
+      outline: none;
     }
 
-    .btn-calc {
-      background-color: var(--primary);
+    .btn-action-sm {
+      background-color: var(--accent);
       border: none;
       color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 500;
       cursor: pointer;
       flex: 1;
+      transition: background 0.15s;
     }
 
-    /* Stats */
-    .stat-row {
+    .btn-action-sm:hover {
+      background-color: var(--accent-hover);
+    }
+
+    /* Stats Rows */
+    .stat-line {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
 
-    .stat-label { color: var(--text-muted); }
-    .stat-val { font-weight: 600; font-variant-numeric: tabular-nums; }
-    .stat-val.highlight { color: var(--success); }
+    .stat-key { color: var(--text-muted); }
+    .stat-number { font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text-main); }
+    .stat-number.accent { color: var(--accent); font-weight: 600; }
 
-    /* Footer action */
-    .sidebar-footer {
-      padding: 12px 16px;
+    /* Footer */
+    .sidebar-bottom {
+      padding: 14px 16px;
       border-top: 1px solid var(--border);
       background-color: var(--bg-panel);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .format-row {
+    .select-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
+      color: var(--text-secondary);
     }
 
-    .format-select {
+    .dropdown {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      color: var(--text);
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.78rem;
+      color: var(--text-main);
+      padding: 5px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
       outline: none;
+      cursor: pointer;
     }
 
-    .btn-main {
+    .btn-primary {
       width: 100%;
       padding: 10px;
-      border-radius: var(--radius);
-      font-size: 0.88rem;
-      font-weight: 700;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 600;
       border: none;
       cursor: pointer;
-      background-color: #10b981;
+      background-color: var(--accent);
       color: white;
       transition: background 0.15s;
     }
-    .btn-main:hover { background-color: #059669; }
 
-    /* Preview Area */
-    .preview-area {
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+    }
+
+    /* Main Canvas / Viewport */
+    .preview-canvas-area {
       flex: 1;
       display: flex;
       flex-direction: column;
       height: 100%;
       position: relative;
-      background-color: #08090b;
+      background-color: #eae7df;
     }
 
-    .toolbar {
+    .top-toolbar {
       height: 48px;
       background-color: var(--bg-panel);
       border-bottom: 1px solid var(--border);
@@ -381,59 +405,59 @@
       z-index: 5;
     }
 
-    .view-modes {
+    .view-group {
       display: flex;
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      background-color: var(--border-light);
+      border-radius: var(--radius-sm);
       padding: 2px;
       gap: 2px;
     }
 
-    .mode-btn {
+    .view-btn {
       background: transparent;
       border: none;
-      color: var(--text-muted);
-      padding: 5px 10px;
-      font-size: 0.74rem;
+      color: var(--text-secondary);
+      padding: 5px 11px;
+      font-size: 0.73rem;
       border-radius: 4px;
       cursor: pointer;
+      font-weight: 500;
+      transition: all 0.12s;
+    }
+
+    .view-btn.active {
+      background-color: var(--bg-card);
+      color: var(--text-main);
       font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
-    .mode-btn.active {
-      background-color: var(--primary);
-      color: white;
-    }
-
-    .tools-group {
+    .tools-wrap {
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .tool-btn {
+    .action-pill {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      color: var(--text);
+      color: var(--text-secondary);
       padding: 5px 10px;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      font-size: 0.73rem;
+      font-weight: 500;
+      transition: all 0.12s;
     }
 
-    .tool-btn.active {
-      background-color: #1f6aa5;
-      border-color: #3b82f6;
-      color: white;
+    .action-pill.active {
+      background-color: var(--accent-tint);
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
-    /* Viewport & Split Container */
-    .viewport {
+    /* Center Viewport */
+    .center-stage {
       flex: 1;
       position: relative;
       overflow: hidden;
@@ -443,17 +467,18 @@
       cursor: crosshair;
     }
 
-    .split-container {
+    .split-wrapper {
       position: relative;
-      max-width: 96%;
+      max-width: 95%;
       max-height: 92%;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
-      user-select: none;
-      border-radius: 4px;
+      border-radius: var(--radius-sm);
       overflow: hidden;
+      box-shadow: 0 8px 30px rgba(50, 40, 30, 0.08);
+      user-select: none;
+      background: #ffffff;
     }
 
-    .split-img {
+    .base-image {
       display: block;
       max-width: 100%;
       max-height: 84vh;
@@ -461,7 +486,7 @@
       pointer-events: none;
     }
 
-    .split-overlay {
+    .overlay-view {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -469,315 +494,361 @@
       pointer-events: none;
     }
 
-    .split-overlay img {
+    .overlay-view img {
       position: absolute;
       top: 0; left: 0;
       height: 100%;
       pointer-events: none;
     }
 
-    .split-divider-v {
+    .hairline-divider-v {
       position: absolute;
       top: 0; bottom: 0;
-      width: 3px;
-      background-color: var(--primary);
+      width: 1px;
+      background-color: rgba(255, 255, 255, 0.9);
       cursor: ew-resize;
       z-index: 10;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
     }
 
-    .split-divider-h {
+    .hairline-divider-h {
       position: absolute;
       left: 0; right: 0;
-      height: 3px;
-      background-color: var(--primary);
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.9);
       cursor: ns-resize;
       z-index: 10;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
     }
 
-    .split-handle {
+    .circle-handle {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 30px; height: 30px;
-      background: var(--primary);
-      border: 2px solid white;
+      width: 24px; height: 24px;
+      background: #ffffff;
+      border: 1px solid var(--border);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 12px;
-      font-weight: bold;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
-    .tag-badge {
+    .circle-handle::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent);
+      border-radius: 50%;
+    }
+
+    .label-tag {
       position: absolute;
-      padding: 3px 8px;
+      padding: 3px 7px;
       border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 700;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       pointer-events: none;
       z-index: 4;
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: var(--text-secondary);
     }
 
-    .tag-top-left { top: 10px; left: 10px; color: #f3f4f6; }
-    .tag-top-right { top: 10px; right: 10px; color: #60a5fa; border-color: rgba(96, 165, 250, 0.4); }
+    .label-tag-left { top: 10px; left: 10px; }
+    .label-tag-right { top: 10px; right: 10px; color: var(--accent); }
 
-    /* Interactive Loupe Circle */
-    .loupe-circle {
+    /* Floating Loupe */
+    .circular-loupe {
       position: absolute;
-      width: 150px;
-      height: 150px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      border: 3px solid #3b82f6;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+      border: 2px solid var(--accent);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
       pointer-events: none;
       overflow: hidden;
       display: none;
       z-index: 50;
-      background: #000;
+      background: #ffffff;
     }
 
-    .loupe-circle canvas {
+    .circular-loupe canvas {
       width: 100%;
       height: 100%;
       image-rendering: pixelated;
     }
 
-    .bottom-bar {
-      height: 28px;
+    .status-strip {
+      height: 26px;
       background-color: var(--bg-panel);
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 16px;
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
     }
 
     #file-input { display: none; }
+
+    /* Responsive Mobile Layout */
+    @media (max-width: 820px) {
+      body {
+        flex-direction: column-reverse;
+      }
+      .sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        height: 57% !important;
+        border-right: none !important;
+        border-top: 1px solid var(--border);
+      }
+      .preview-canvas-area {
+        height: 43% !important;
+      }
+      .sidebar-header {
+        display: none !important;
+      }
+      .base-image {
+        max-height: 38vh !important;
+      }
+      .status-strip {
+        display: none !important;
+      }
+      .top-toolbar {
+        height: 40px !important;
+        padding: 0 8px !important;
+      }
+      .view-btn {
+        padding: 4px 7px !important;
+        font-size: 0.68rem !important;
+      }
+      .sidebar-bottom {
+        padding: 8px 12px !important;
+      }
+      .btn-primary {
+        padding: 8px !important;
+        font-size: 0.8rem !important;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar -->
+  <!-- Left Sidebar -->
   <div class="sidebar">
     <div class="sidebar-header">
-      <h1>⚡ JPEG Compressor 2.0</h1>
-      <p>Сжатие, артефакты, метрики PSNR и тепловая карта</p>
+      <h1>JPEG Studio</h1>
+      <p>Минималистичное сжатие и стилизация</p>
     </div>
 
-    <!-- Tabs Header -->
-    <div class="tabs-header">
-      <button class="tab-btn active" onclick="switchTab('tab-compress')">⚡ Сжатие</button>
-      <button class="tab-btn" onclick="switchTab('tab-artifacts')">🎨 Артефакты</button>
-      <button class="tab-btn" onclick="switchTab('tab-metrics')">📊 Метрики</button>
+    <!-- Clean Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-item active" onclick="selectTab('tab-compress')">Сжатие</button>
+      <button class="tab-item" onclick="selectTab('tab-artifacts')">Артефакты</button>
+      <button class="tab-item" onclick="selectTab('tab-metrics')">Метрики</button>
     </div>
 
     <!-- TAB 1: Сжатие -->
-    <div class="tab-content active" id="tab-compress">
-      <!-- File Drop -->
-      <div class="card">
-        <div class="card-title">Изображение</div>
-        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-          <div class="drop-zone-icon">🖼️</div>
-          <div class="drop-zone-text" id="file-name-display">Нажмите или перетащите фото</div>
-          <div class="drop-zone-hint">JPG, PNG, WEBP, BMP</div>
+    <div class="tab-body active" id="tab-compress">
+      <!-- File Selector -->
+      <div class="panel">
+        <div class="panel-title">Исходный файл</div>
+        <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+          <div class="upload-title" id="file-name-display">Выбрать или перетащить файл</div>
+          <div class="upload-subtitle">JPG, PNG, WEBP, BMP</div>
         </div>
         <input type="file" id="file-input" accept="image/*">
       </div>
 
-      <!-- Quality Slider -->
-      <div class="card">
-        <div class="card-title">
-          <span>Качество JPEG</span>
-          <span class="val-badge" id="quality-val">30%</span>
+      <!-- Quality Slider & Presets -->
+      <div class="panel">
+        <div class="panel-title">
+          <span>Степень качества</span>
+          <span class="badge-val" id="quality-val">30%</span>
         </div>
-        <div class="slider-group">
+        <div class="control-row">
           <input type="range" id="quality-slider" min="1" max="100" value="30">
         </div>
 
-        <div class="card-title" style="margin-top: 4px;">Пресеты</div>
-        <div class="preset-grid">
-          <button class="btn-preset" onclick="setPreset(85, 1, 100, false)">85% Кач.</button>
-          <button class="btn-preset" onclick="setPreset(60, 1, 100, false)">60% Веб</button>
-          <button class="btn-preset" onclick="setPreset(25, 1, 100, false)">25% Низк.</button>
-          <button class="btn-preset" onclick="setPreset(5, 1, 100, false)">5% Экстрим</button>
-          <button class="btn-preset" onclick="setPreset(15, 2, 40, true)">👾 Ретро</button>
-          <button class="btn-preset btn-preset jackal" onclick="setPreset(2, 5, 100, false, 0, 1.0, 1.0)">🐺 Шакал</button>
-          <button class="btn-preset btn-preset deepfry" onclick="setPreset(3, 3, 100, false, 0, 2.2, 1.8)">🍟 DeepFry</button>
-          <button class="btn-preset" onclick="setPreset(10, 2, 100, false, 5, 1.2, 1.2)">📼 VHS</button>
+        <div class="panel-title" style="margin-top: 4px;">Пресеты</div>
+        <div class="preset-row">
+          <button class="btn-chip chip-sage" onclick="applyPreset(85, 1, 100, false)">85% Высокое</button>
+          <button class="btn-chip" onclick="applyPreset(60, 1, 100, false)">60% Баланс</button>
+          <button class="btn-chip" onclick="applyPreset(25, 1, 100, false)">25% Низкое</button>
+          <button class="btn-chip" onclick="applyPreset(5, 1, 100, false)">5% Минимум</button>
+          <button class="btn-chip chip-sky" onclick="applyPreset(15, 2, 40, true)">Ретро</button>
+          <button class="btn-chip chip-clay" onclick="applyPreset(2, 5, 100, false, 0, 1.0, 1.0)">Артефакты</button>
+          <button class="btn-chip chip-rose" onclick="applyPreset(3, 3, 100, false, 0, 2.0, 1.6)">Контраст</button>
+          <button class="btn-chip" onclick="applyPreset(10, 2, 100, false, 5, 1.2, 1.2)">Хрома</button>
         </div>
       </div>
 
-      <!-- Target Size Mode -->
-      <div class="card">
-        <div class="card-title">🎯 Подобрать под размер (КБ)</div>
-        <div class="target-size-row">
-          <input type="number" class="input-kb" id="target-kb-input" value="200" placeholder="200">
-          <button class="btn-calc" onclick="calculateForTargetSize()">Рассчитать качество</button>
+      <!-- Target Size -->
+      <div class="panel">
+        <div class="panel-title">Целевой размер (КБ)</div>
+        <div class="size-input-wrapper">
+          <input type="number" class="field-input" id="target-kb-input" value="200" placeholder="200">
+          <button class="btn-action-sm" onclick="calcTargetSize()">Подобрать качество</button>
         </div>
-        <div class="drop-zone-hint">Автоматический бинарный поиск качества под лимит размера.</div>
+        <div class="upload-subtitle">Автоматический расчет для достижения лимита веса.</div>
       </div>
     </div>
 
-    <!-- TAB 2: Артефакты & Глитч -->
-    <div class="tab-content" id="tab-artifacts">
-      <div class="card">
-        <div class="card-title">
-          <span>Проходы сжатия (Multi-pass)</span>
-          <span class="val-badge" id="passes-val">1x</span>
+    <!-- TAB 2: Артефакты -->
+    <div class="tab-body" id="tab-artifacts">
+      <div class="panel">
+        <div class="panel-title">
+          <span>Проходы сжатия</span>
+          <span class="badge-val" id="passes-val">1x</span>
         </div>
-        <div class="slider-group">
+        <div class="control-row">
           <input type="range" id="passes-slider" min="1" max="10" value="1">
         </div>
-        <div class="drop-zone-hint">Повторные циклы сохранения для симуляции Generation Loss.</div>
+        <div class="upload-subtitle">Многократное пересохранение для накопления шума сетки.</div>
       </div>
 
-      <div class="card">
-        <div class="card-title">
-          <span>Хроматическая аберрация</span>
-          <span class="val-badge" id="chroma-val">0 px</span>
+      <div class="panel">
+        <div class="panel-title">
+          <span>Хроматическое смещение</span>
+          <span class="badge-val" id="chroma-val">0 px</span>
         </div>
-        <div class="slider-group">
+        <div class="control-row">
           <input type="range" id="chroma-slider" min="0" max="8" value="0">
         </div>
 
-        <div class="card-title" style="margin-top: 6px;">
-          <span>Deep-Fry Насыщенность</span>
-          <span class="val-badge" id="sat-val">1.0x</span>
+        <div class="panel-title" style="margin-top: 4px;">
+          <span>Насыщенность</span>
+          <span class="badge-val" id="sat-val">1.0x</span>
         </div>
-        <div class="slider-group">
+        <div class="control-row">
           <input type="range" id="sat-slider" min="10" max="30" value="10">
         </div>
 
-        <div class="card-title" style="margin-top: 6px;">
-          <span>Контраст артефактов</span>
-          <span class="val-badge" id="cont-val">1.0x</span>
+        <div class="panel-title" style="margin-top: 4px;">
+          <span>Контраст</span>
+          <span class="badge-val" id="cont-val">1.0x</span>
         </div>
-        <div class="slider-group">
+        <div class="control-row">
           <input type="range" id="cont-slider" min="10" max="25" value="10">
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title">
+      <div class="panel">
+        <div class="panel-title">
           <span>Масштаб разрешения</span>
-          <span class="val-badge" id="scale-val">100%</span>
+          <span class="badge-val" id="scale-val">100%</span>
         </div>
-        <div class="slider-group">
+        <div class="control-row">
           <input type="range" id="scale-slider" min="10" max="100" value="100">
         </div>
-        <label class="toggle-row" style="margin-top: 4px;">
+        <label class="check-row" style="margin-top: 4px;">
           <span>Пикселизация (растянуть в исходный размер)</span>
           <input type="checkbox" id="pixelate-check">
         </label>
       </div>
     </div>
 
-    <!-- TAB 3: Метрики качества -->
-    <div class="tab-content" id="tab-metrics">
-      <div class="card">
-        <div class="card-title">🔬 Метрика искажений (PSNR)</div>
-        <div class="stat-row">
-          <span class="stat-label">PSNR:</span>
-          <span class="stat-val highlight" id="stat-psnr">—</span>
+    <!-- TAB 3: Метрики -->
+    <div class="tab-body" id="tab-metrics">
+      <div class="panel">
+        <div class="panel-title">Оценка искажений</div>
+        <div class="stat-line">
+          <span class="stat-key">Метрика PSNR:</span>
+          <span class="stat-number accent" id="stat-psnr">—</span>
         </div>
-        <div class="stat-row">
-          <span class="stat-label">Оценка:</span>
-          <span class="stat-val" id="stat-verdict">—</span>
+        <div class="stat-line">
+          <span class="stat-key">Характеристика:</span>
+          <span class="stat-number" id="stat-verdict">—</span>
         </div>
-        <div class="drop-zone-hint">Пиковое отношение сигнала к шуму. Выше 32 dB — отлично, ниже 22 dB — сильные артефакты.</div>
+        <div class="upload-subtitle">Пиковое отношение сигнала к шуму в децибелах.</div>
       </div>
 
-      <div class="card">
-        <div class="card-title">Размеры файлов</div>
-        <div class="stat-row">
-          <span class="stat-label">Исходный вес:</span>
-          <span class="stat-val" id="stat-orig">—</span>
+      <div class="panel">
+        <div class="panel-title">Объем памяти</div>
+        <div class="stat-line">
+          <span class="stat-key">Исходный вес:</span>
+          <span class="stat-number" id="stat-orig">—</span>
         </div>
-        <div class="stat-row">
-          <span class="stat-label">Сжатый вес:</span>
-          <span class="stat-val highlight" id="stat-comp">—</span>
+        <div class="stat-line">
+          <span class="stat-key">Сжатый вес:</span>
+          <span class="stat-number accent" id="stat-comp">—</span>
         </div>
-        <div class="stat-row">
-          <span class="stat-label">Экономия памяти:</span>
-          <span class="stat-val" id="stat-diff">—</span>
+        <div class="stat-line">
+          <span class="stat-key">Снижение размера:</span>
+          <span class="stat-number" id="stat-diff">—</span>
         </div>
-        <div class="stat-row">
-          <span class="stat-label">Разрешение:</span>
-          <span class="stat-val" id="stat-dim">—</span>
+        <div class="stat-line">
+          <span class="stat-key">Разрешение:</span>
+          <span class="stat-number" id="stat-dim">—</span>
         </div>
       </div>
     </div>
 
-    <!-- Sidebar Footer -->
-    <div class="sidebar-footer">
-      <div class="format-row">
-        <span>Формат скачивания:</span>
-        <select class="format-select" id="export-format">
+    <!-- Footer Action -->
+    <div class="sidebar-bottom">
+      <div class="select-row">
+        <span>Формат файла:</span>
+        <select class="dropdown" id="export-format">
           <option value="jpg">JPEG (.jpg)</option>
-          <option value="png">PNG (.png - без потерь)</option>
+          <option value="png">PNG (.png)</option>
           <option value="webp">WebP (.webp)</option>
         </select>
       </div>
-      <button class="btn-main" onclick="downloadImage()">💾 Скачать результат</button>
+      <button class="btn-primary" onclick="downloadImage()">Сохранить результат</button>
     </div>
   </div>
 
-  <!-- Preview Area -->
-  <div class="preview-area">
-    <div class="toolbar">
-      <div class="view-modes">
-        <button class="mode-btn active" id="btn-split-v" onclick="setViewMode('split_v')">↔ Верт. сплит</button>
-        <button class="mode-btn" id="btn-split-h" onclick="setViewMode('split_h')">↕ Гориз. сплит</button>
-        <button class="mode-btn" id="btn-heatmap" onclick="setViewMode('heatmap')">♨ Тепловая карта</button>
-        <button class="mode-btn" id="btn-comp" onclick="setViewMode('comp')">Сжатое</button>
-        <button class="mode-btn" id="btn-orig" onclick="setViewMode('orig')">Оригинал</button>
+  <!-- Preview Canvas Stage -->
+  <div class="preview-canvas-area">
+    <div class="top-toolbar">
+      <div class="view-group">
+        <button class="view-btn active" id="btn-split-v" onclick="changeView('split_v')">Вертикальный</button>
+        <button class="view-btn" id="btn-split-h" onclick="changeView('split_h')">Горизонтальный</button>
+        <button class="view-btn" id="btn-heatmap" onclick="changeView('heatmap')">Тепловая карта</button>
+        <button class="view-btn" id="btn-comp" onclick="changeView('comp')">Сжатое</button>
+        <button class="view-btn" id="btn-orig" onclick="changeView('orig')">Оригинал</button>
       </div>
 
-      <div class="tools-group">
-        <button class="tool-btn" id="btn-loupe" onclick="toggleLoupe()">🔍 Лупа 4x</button>
+      <div class="tools-wrap">
+        <button class="action-pill" id="btn-loupe" onclick="toggleLoupe()">Лупа 4x</button>
       </div>
     </div>
 
-    <!-- Viewport -->
-    <div class="viewport" id="viewport">
-      <div class="split-container" id="split-container">
-        <img id="img-orig" class="split-img" alt="Оригинал">
+    <div class="center-stage" id="viewport">
+      <div class="split-wrapper" id="split-wrapper">
+        <img id="img-orig" class="base-image" alt="Оригинал">
 
-        <div class="split-overlay" id="split-overlay">
+        <div class="overlay-view" id="overlay-view">
           <img id="img-comp" alt="Сжатое">
         </div>
 
-        <div class="split-divider-v" id="divider-v">
-          <div class="split-handle">↔</div>
+        <div class="hairline-divider-v" id="divider-v">
+          <div class="circle-handle"></div>
         </div>
 
-        <div class="split-divider-h" id="divider-h" style="display: none;">
-          <div class="split-handle">↕</div>
+        <div class="hairline-divider-h" id="divider-h" style="display: none;">
+          <div class="circle-handle"></div>
         </div>
 
-        <div class="tag-badge tag-top-left" id="badge-left">ДО (Оригинал)</div>
-        <div class="tag-badge tag-top-right" id="badge-right">ПОСЛЕ (JPEG)</div>
+        <div class="label-tag label-tag-left" id="badge-left">Оригинал</div>
+        <div class="label-tag label-tag-right" id="badge-right">JPEG</div>
       </div>
 
-      <!-- Floating Magnifier Loupe -->
-      <div class="loupe-circle" id="loupe-circle">
-        <canvas id="loupe-canvas" width="150" height="150"></canvas>
+      <div class="circular-loupe" id="circular-loupe">
+        <canvas id="loupe-canvas" width="140" height="140"></canvas>
       </div>
     </div>
 
-    <!-- Bottom Status Bar -->
-    <div class="bottom-bar">
-      <span id="status-text">Готово к работе. Загрузите изображение.</span>
-      <span>Зажмите [Пробел] для оригинала | Двигайте слайдер мышью</span>
+    <div class="status-strip">
+      <span id="status-text">Готово</span>
+      <span>Зажмите Пробел для оригинала</span>
     </div>
   </div>
 
@@ -795,7 +866,6 @@
     let heatmapBlobUrl = null;
     let compressedBlobUrl = null;
 
-    // Elements
     const fileInput = document.getElementById('file-input');
     const dropZone = document.getElementById('drop-zone');
     const fileNameDisplay = document.getElementById('file-name-display');
@@ -821,37 +891,33 @@
     const statPsnr = document.getElementById('stat-psnr');
     const statVerdict = document.getElementById('stat-verdict');
 
-    const splitContainer = document.getElementById('split-container');
-    const splitOverlay = document.getElementById('split-overlay');
+    const splitWrapper = document.getElementById('split-wrapper');
+    const overlayView = document.getElementById('overlay-view');
     const dividerV = document.getElementById('divider-v');
     const dividerH = document.getElementById('divider-h');
     const imgOrig = document.getElementById('img-orig');
     const imgComp = document.getElementById('img-comp');
-    const loupeCircle = document.getElementById('loupe-circle');
+    const circularLoupe = document.getElementById('circular-loupe');
     const loupeCanvas = document.getElementById('loupe-canvas');
     const loupeCtx = loupeCanvas.getContext('2d');
 
-    // Tabs
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    function selectTab(tabId) {
+      document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-body').forEach(c => c.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById(tabId).classList.add('active');
     }
 
-    // Drag and drop
-    ['dragenter', 'dragover'].forEach(name => {
-      window.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    ['dragenter', 'dragover'].forEach(n => {
+      window.addEventListener(n, e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     });
-    ['dragleave', 'drop'].forEach(name => {
-      window.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+    ['dragleave', 'drop'].forEach(n => {
+      window.addEventListener(n, e => { e.preventDefault(); dropZone.classList.remove('dragover'); });
     });
-    window.addEventListener('drop', (e) => {
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        handleFile(e.dataTransfer.files[0]);
-      }
+    window.addEventListener('drop', e => {
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
     });
-    fileInput.addEventListener('change', (e) => {
+    fileInput.addEventListener('change', e => {
       if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
     });
 
@@ -862,23 +928,20 @@
     }
 
     function handleFile(file) {
-      if (!file.type.startsWith('image/')) {
-        alert("Пожалуйста, выберите файл изображения!");
-        return;
-      }
+      if (!file.type.startsWith('image/')) return;
       currentFileName = file.name;
       fileNameDisplay.textContent = file.name;
       originalSize = file.size;
       statOrig.textContent = formatBytes(originalSize);
 
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = e => {
         const img = new Image();
         img.onload = () => {
           originalImage = img;
           imgOrig.src = e.target.result;
           statDim.textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
-          updateSplitView();
+          refreshSplit();
           processImage();
         };
         img.src = e.target.result;
@@ -886,7 +949,6 @@
       reader.readAsDataURL(file);
     }
 
-    // Slider inputs
     qualitySlider.addEventListener('input', () => { qualityVal.textContent = qualitySlider.value + '%'; processImage(); });
     passesSlider.addEventListener('input', () => { passesVal.textContent = passesSlider.value + 'x'; processImage(); });
     chromaSlider.addEventListener('input', () => { chromaVal.textContent = chromaSlider.value + ' px'; processImage(); });
@@ -895,7 +957,7 @@
     scaleSlider.addEventListener('input', () => { scaleVal.textContent = scaleSlider.value + '%'; processImage(); });
     pixelateCheck.addEventListener('change', () => { processImage(); });
 
-    function setPreset(quality, passes, scale, pixelate, chroma = 0, sat = 1.0, cont = 1.0) {
+    function applyPreset(quality, passes, scale, pixelate, chroma = 0, sat = 1.0, cont = 1.0) {
       qualitySlider.value = quality; qualityVal.textContent = quality + '%';
       passesSlider.value = passes; passesVal.textContent = passes + 'x';
       scaleSlider.value = scale; scaleVal.textContent = scale + '%';
@@ -906,24 +968,20 @@
       processImage();
     }
 
-    // Target Size Calculator (Binary search)
-    async function calculateForTargetSize() {
+    async function calcTargetSize() {
       if (!originalImage) return;
       const targetKb = parseFloat(document.getElementById('target-kb-input').value);
       if (!targetKb || targetKb <= 0) return;
 
-      statusText.textContent = `Подбор качества под ${targetKb} КБ...`;
-      let low = 1, high = 95, bestQ = 50;
-
-      for (let step = 0; step < 7; step++) {
+      statusText.textContent = `Расчет качества под ${targetKb} КБ...`;
+      let low = 1, high = 95;
+      for (let s = 0; s < 7; s++) {
         let mid = Math.floor((low + high) / 2);
         qualitySlider.value = mid;
         qualityVal.textContent = mid + '%';
-        await runCompressionAsync();
+        await executeCompression();
         if (!currentBlob) break;
-
         let szKb = currentBlob.size / 1024;
-        bestQ = mid;
         if (Math.abs(szKb - targetKb) / targetKb <= 0.05) break;
         if (szKb < targetKb) low = mid + 1;
         else high = mid - 1;
@@ -931,38 +989,34 @@
       }
     }
 
-    // Space key hold
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', e => {
       if (e.code === 'Space' && !spaceHeld && e.target.tagName !== 'INPUT') {
-        spaceHeld = true;
-        updateSplitView();
+        spaceHeld = true; refreshSplit();
       }
     });
-    window.addEventListener('keyup', (e) => {
+    window.addEventListener('keyup', e => {
       if (e.code === 'Space' && spaceHeld) {
-        spaceHeld = false;
-        updateSplitView();
+        spaceHeld = false; refreshSplit();
       }
     });
 
     function toggleLoupe() {
       loupeActive = !loupeActive;
       document.getElementById('btn-loupe').classList.toggle('active', loupeActive);
-      loupeCircle.style.display = loupeActive ? 'block' : 'none';
+      circularLoupe.style.display = loupeActive ? 'block' : 'none';
     }
 
-    // Main Image Processing
-    let debounceTimer = null;
+    let timer = null;
     function processImage() {
       if (!originalImage) return;
-      if (debounceTimer) clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(runCompressionAsync, 20);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(executeCompression, 25);
     }
 
-    async function runCompressionAsync() {
+    async function executeCompression() {
       if (!originalImage) return;
       const t0 = performance.now();
-      statusText.textContent = "Сжатие и анализ...";
+      statusText.textContent = "Обработка...";
 
       const quality = parseInt(qualitySlider.value, 10) / 100;
       const passes = parseInt(passesSlider.value, 10);
@@ -983,25 +1037,23 @@
       canvas.height = targetH;
       const ctx = canvas.getContext('2d');
 
-      // Filters for saturation and contrast
       ctx.filter = `contrast(${cont}) saturate(${sat})`;
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, targetW, targetH);
       ctx.drawImage(originalImage, 0, 0, targetW, targetH);
       ctx.filter = 'none';
 
-      // Chromatic Aberration in Canvas
       if (chromaOffset > 0) {
         const idata = ctx.getImageData(0, 0, targetW, targetH);
-        const data = idata.data;
-        const copy = new Uint8ClampedArray(data);
+        const d = idata.data;
+        const copy = new Uint8ClampedArray(d);
         for (let y = 0; y < targetH; y++) {
           for (let x = 0; x < targetW; x++) {
             const idx = (y * targetW + x) * 4;
             const rx = Math.max(0, x - chromaOffset);
             const bx = Math.min(targetW - 1, x + chromaOffset);
-            data[idx] = copy[(y * targetW + rx) * 4];       // Shift Red
-            data[idx + 2] = copy[(y * targetW + bx) * 4 + 2]; // Shift Blue
+            d[idx] = copy[(y * targetW + rx) * 4];
+            d[idx + 2] = copy[(y * targetW + bx) * 4 + 2];
           }
         }
         ctx.putImageData(idata, 0, 0);
@@ -1009,7 +1061,6 @@
 
       let blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
 
-      // Multi-pass Generation loss
       for (let p = 1; p < passes; p++) {
         const intermediate = await createImageBitmap(blob);
         ctx.fillStyle = '#ffffff';
@@ -1018,7 +1069,6 @@
         blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
       }
 
-      // Pixelate upscale
       if (pixelate && scale < 0.99) {
         const upCanvas = document.createElement('canvas');
         upCanvas.width = origW; upCanvas.height = origH;
@@ -1032,23 +1082,19 @@
       currentBlob = blob;
       compressedBlobUrl = URL.createObjectURL(blob);
 
-      // Generate Difference Heatmap
-      generateHeatmap(targetW, targetH);
+      buildHeatmap(targetW, targetH);
 
-      // Update sizes & PSNR
       const compSize = blob.size;
       statComp.textContent = formatBytes(compSize);
       const diff = ((compSize - originalSize) / originalSize) * 100;
       statDiff.textContent = (diff <= 0 ? "" : "+") + diff.toFixed(1) + "%";
-      statDiff.style.color = diff <= 0 ? "var(--success)" : "var(--danger)";
 
       const dt = (performance.now() - t0).toFixed(0);
-      statusText.textContent = `Обработано за ${dt} мс | Качество: ${Math.round(quality*100)}% | Проходов: ${passes}`;
-      updateSplitView();
+      statusText.textContent = `Выполнено за ${dt} мс`;
+      refreshSplit();
     }
 
-    // Client-side PSNR and Heatmap Generator
-    async function generateHeatmap(w, h) {
+    async function buildHeatmap(w, h) {
       const c1 = document.createElement('canvas');
       c1.width = w; c1.height = h;
       const ctx1 = c1.getContext('2d');
@@ -1062,14 +1108,14 @@
       ctx2.drawImage(compBmp, 0, 0, w, h);
       const d2 = ctx2.getImageData(0, 0, w, h).data;
 
-      const heatCanvas = document.createElement('canvas');
-      heatCanvas.width = w; heatCanvas.height = h;
-      const hCtx = heatCanvas.getContext('2d');
-      const hImgData = hCtx.createImageData(w, h);
-      const hd = hImgData.data;
+      const hCanvas = document.createElement('canvas');
+      hCanvas.width = w; hCanvas.height = h;
+      const hCtx = hCanvas.getContext('2d');
+      const hData = hCtx.createImageData(w, h);
+      const hd = hData.data;
 
       let sumSquaredErr = 0;
-      const totalPixels = w * h;
+      const total = w * h;
 
       for (let i = 0; i < d1.length; i += 4) {
         const errR = d1[i] - d2[i];
@@ -1078,59 +1124,54 @@
         const err = Math.sqrt((errR*errR + errG*errG + errB*errB) / 3.0);
         sumSquaredErr += err * err;
 
-        // Turbo colormap approximation
-        const norm = Math.min(1.0, (err * 5.5) / 255.0);
+        const norm = Math.min(1.0, (err * 5.0) / 255.0);
         let r = 0, g = 0, b = 0;
-        if (norm < 0.2) { b = norm * 5 * 255; }
-        else if (norm < 0.5) { g = (norm - 0.2) / 0.3 * 255; b = (1 - (norm - 0.2) / 0.3) * 255; }
-        else if (norm < 0.8) { r = (norm - 0.5) / 0.3 * 255; g = 255; }
-        else { r = 255; g = (1 - (norm - 0.8) / 0.2) * 200; }
+        if (norm < 0.2) { b = norm * 5 * 240; }
+        else if (norm < 0.5) { g = (norm - 0.2) / 0.3 * 220; b = (1 - (norm - 0.2) / 0.3) * 200; }
+        else if (norm < 0.8) { r = (norm - 0.5) / 0.3 * 235; g = 210; }
+        else { r = 230; g = (1 - (norm - 0.8) / 0.2) * 160; b = 70; }
 
         hd[i] = r; hd[i+1] = g; hd[i+2] = b; hd[i+3] = 255;
       }
 
-      hCtx.putImageData(hImgData, 0, 0);
-      heatCanvas.toBlob(b => {
+      hCtx.putImageData(hData, 0, 0);
+      hCanvas.toBlob(b => {
         heatmapBlobUrl = URL.createObjectURL(b);
-        if (viewMode === 'heatmap') {
-          imgComp.src = heatmapBlobUrl;
-        }
+        if (viewMode === 'heatmap') imgComp.src = heatmapBlobUrl;
       });
 
-      const mse = sumSquaredErr / totalPixels;
+      const mse = sumSquaredErr / total;
       let psnr = mse > 0 ? (20 * Math.log10(255 / Math.sqrt(mse))).toFixed(1) : "99.9";
       statPsnr.textContent = psnr + " dB";
 
-      let verdict = "Отличное качество";
-      if (psnr < 20) verdict = "Экстремальный шакал";
-      else if (psnr < 25) verdict = "Сильные артефакты";
+      let verdict = "Высокое качество";
+      if (psnr < 20) verdict = "Сильные искажения";
+      else if (psnr < 25) verdict = "Выраженные артефакты";
       else if (psnr < 30) verdict = "Заметные блоки";
-      else if (psnr < 36) verdict = "Веб-стандарт";
+      else if (psnr < 36) verdict = "Стандартное качество";
       statVerdict.textContent = verdict;
     }
 
-    // View Modes & Split
-    function setViewMode(mode) {
+    function changeView(mode) {
       viewMode = mode;
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById(`btn-${mode.replace('_', '-')}`);
-      if (activeBtn) activeBtn.classList.add('active');
-      updateSplitView();
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById(`btn-${mode.replace('_', '-')}`);
+      if (btn) btn.classList.add('active');
+      refreshSplit();
     }
 
-    function updateSplitView() {
+    function refreshSplit() {
       if (!originalImage) return;
-
-      const rect = splitContainer.getBoundingClientRect();
+      const rect = splitWrapper.getBoundingClientRect();
       const w = rect.width, h = rect.height;
 
       dividerV.style.display = 'none';
       dividerH.style.display = 'none';
-      splitOverlay.style.display = 'block';
+      overlayView.style.display = 'block';
 
       if (spaceHeld || viewMode === 'orig') {
-        splitOverlay.style.display = 'none';
-        document.getElementById('badge-left').textContent = 'ОРИГИНАЛ';
+        overlayView.style.display = 'none';
+        document.getElementById('badge-left').textContent = 'Оригинал';
         document.getElementById('badge-right').style.display = 'none';
         return;
       }
@@ -1142,48 +1183,47 @@
         dividerV.style.display = 'block';
         const splitX = Math.round(w * splitPos);
         dividerV.style.left = splitX + 'px';
-        splitOverlay.style.clipPath = `inset(0 0 0 ${splitX}px)`;
-        document.getElementById('badge-left').textContent = 'ДО (Оригинал)';
-        document.getElementById('badge-right').textContent = 'ПОСЛЕ (JPEG)';
+        overlayView.style.clipPath = `inset(0 0 0 ${splitX}px)`;
+        document.getElementById('badge-left').textContent = 'Оригинал';
+        document.getElementById('badge-right').textContent = 'JPEG';
       } else if (viewMode === 'split_h') {
         dividerH.style.display = 'block';
         const splitY = Math.round(h * splitPos);
         dividerH.style.top = splitY + 'px';
-        splitOverlay.style.clipPath = `inset(${splitY}px 0 0 0)`;
-        document.getElementById('badge-left').textContent = 'ВВЕРХ: Оригинал';
-        document.getElementById('badge-right').textContent = 'ВНИЗ: JPEG';
+        overlayView.style.clipPath = `inset(${splitY}px 0 0 0)`;
+        document.getElementById('badge-left').textContent = 'Оригинал';
+        document.getElementById('badge-right').textContent = 'JPEG';
       } else if (viewMode === 'comp') {
-        splitOverlay.style.clipPath = 'none';
+        overlayView.style.clipPath = 'none';
         document.getElementById('badge-left').style.display = 'none';
-        document.getElementById('badge-right').textContent = 'СЖАТОЕ JPEG';
+        document.getElementById('badge-right').textContent = 'Сжатое';
       } else if (viewMode === 'heatmap') {
-        splitOverlay.style.clipPath = 'none';
+        overlayView.style.clipPath = 'none';
         document.getElementById('badge-left').style.display = 'none';
-        document.getElementById('badge-right').textContent = 'ТЕПЛОВАЯ КАРТА';
+        document.getElementById('badge-right').textContent = 'Тепловая карта';
       }
     }
 
-    // Split dragging & Loupe tracking
-    splitContainer.addEventListener('pointerdown', (e) => {
+    splitWrapper.addEventListener('pointerdown', e => {
       if (viewMode === 'split_v' || viewMode === 'split_h') {
         isDragging = true;
-        splitContainer.setPointerCapture(e.pointerId);
-        updateSplitPointer(e);
+        splitWrapper.setPointerCapture(e.pointerId);
+        trackSplitPointer(e);
       }
     });
 
-    window.addEventListener('pointermove', (e) => {
-      if (isDragging) updateSplitPointer(e);
-      if (loupeActive && originalImage) updateLoupe(e);
+    window.addEventListener('pointermove', e => {
+      if (isDragging) trackSplitPointer(e);
+      if (loupeActive && originalImage) trackLoupe(e);
     });
 
-    window.addEventListener('pointerup', (e) => {
+    window.addEventListener('pointerup', e => {
       isDragging = false;
-      try { splitContainer.releasePointerCapture(e.pointerId); } catch(err){}
+      try { splitWrapper.releasePointerCapture(e.pointerId); } catch(err){}
     });
 
-    function updateSplitPointer(e) {
-      const rect = splitContainer.getBoundingClientRect();
+    function trackSplitPointer(e) {
+      const rect = splitWrapper.getBoundingClientRect();
       if (viewMode === 'split_v') {
         let x = e.clientX - rect.left;
         splitPos = Math.max(0.02, Math.min(0.98, x / rect.width));
@@ -1191,51 +1231,46 @@
         let y = e.clientY - rect.top;
         splitPos = Math.max(0.02, Math.min(0.98, y / rect.height));
       }
-      updateSplitView();
+      refreshSplit();
     }
 
-    function updateLoupe(e) {
-      const rect = splitContainer.getBoundingClientRect();
+    function trackLoupe(e) {
+      const rect = splitWrapper.getBoundingClientRect();
       const lx = e.clientX - rect.left;
       const ly = e.clientY - rect.top;
 
-      loupeCircle.style.left = (e.clientX - 75) + 'px';
-      loupeCircle.style.top = (e.clientY - 75) + 'px';
+      circularLoupe.style.left = (e.clientX - 70) + 'px';
+      circularLoupe.style.top = (e.clientY - 70) + 'px';
 
       if (lx < 0 || lx > rect.width || ly < 0 || ly > rect.height) {
-        loupeCircle.style.display = 'none';
+        circularLoupe.style.display = 'none';
         return;
       }
-      loupeCircle.style.display = 'block';
+      circularLoupe.style.display = 'block';
 
-      // Draw 4x zoomed region on loupe canvas
       const scaleX = originalImage.naturalWidth / rect.width;
       const scaleY = originalImage.naturalHeight / rect.height;
       const srcX = lx * scaleX;
       const srcY = ly * scaleY;
 
       loupeCtx.imageSmoothingEnabled = false;
-      loupeCtx.clearRect(0, 0, 150, 150);
+      loupeCtx.clearRect(0, 0, 140, 140);
       loupeCtx.drawImage(
         imgComp,
-        srcX - 20, srcY - 20, 40, 40,
-        0, 0, 150, 150
+        srcX - 18, srcY - 18, 36, 36,
+        0, 0, 140, 140
       );
     }
 
-    window.addEventListener('resize', updateSplitView);
+    window.addEventListener('resize', refreshSplit);
 
-    // Download File
     function downloadImage() {
-      if (!currentBlob) {
-        alert("Сначала загрузите изображение!");
-        return;
-      }
+      if (!currentBlob) return;
       const fmt = document.getElementById('export-format').value;
       const q = qualitySlider.value;
       const dotIdx = currentFileName.lastIndexOf('.');
-      const baseName = dotIdx > 0 ? currentFileName.substring(0, dotIdx) : currentFileName;
-      const downloadName = `${baseName}_compressed_q${q}.${fmt}`;
+      const base = dotIdx > 0 ? currentFileName.substring(0, dotIdx) : currentFileName;
+      const downloadName = `${base}_q${q}.${fmt}`;
 
       const link = document.createElement('a');
       link.href = compressedBlobUrl;
@@ -1243,34 +1278,30 @@
       link.click();
     }
 
-    // Default sample on startup
     window.addEventListener('DOMContentLoaded', () => {
       const sample = document.createElement('canvas');
       sample.width = 1200; sample.height = 800;
       const sCtx = sample.getContext('2d');
-      const grad = sCtx.createLinearGradient(0, 0, 1200, 800);
-      grad.addColorStop(0, '#1e3a8a');
-      grad.addColorStop(0.5, '#7c3aed');
-      grad.addColorStop(1, '#db2777');
-      sCtx.fillStyle = grad;
+
+      sCtx.fillStyle = '#f2efe9';
       sCtx.fillRect(0, 0, 1200, 800);
 
-      sCtx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-      for (let i = 0; i < 8; i++) {
-        sCtx.beginPath();
-        sCtx.arc(200 + i * 120, 400 + Math.sin(i) * 120, 80, 0, Math.PI * 2);
-        sCtx.fill();
-      }
-      sCtx.fillStyle = '#ffffff';
-      sCtx.font = 'bold 50px sans-serif';
+      sCtx.fillStyle = '#e5dfd5';
+      sCtx.beginPath();
+      sCtx.arc(600, 400, 220, 0, Math.PI * 2);
+      sCtx.fill();
+
+      sCtx.fillStyle = '#507167';
+      sCtx.font = '600 36px -apple-system, sans-serif';
       sCtx.textAlign = 'center';
-      sCtx.fillText('JPEG Artifact Studio 2.0', 600, 360);
-      sCtx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-      sCtx.font = '26px sans-serif';
-      sCtx.fillText('Перетащите фото или выберите пресет', 600, 430);
+      sCtx.fillText('JPEG Studio', 600, 390);
+
+      sCtx.fillStyle = '#787d88';
+      sCtx.font = '400 18px -apple-system, sans-serif';
+      sCtx.fillText('Перетащите изображение для сжатия', 600, 435);
 
       sample.toBlob(blob => {
-        handleFile(new File([blob], "demo_banner.jpg", { type: "image/jpeg" }));
+        handleFile(new File([blob], "sample.jpg", { type: "image/jpeg" }));
       }, 'image/jpeg', 0.95);
     });
   </script>
